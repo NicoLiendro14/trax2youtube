@@ -21,9 +21,9 @@ export default [
       'no-var': 'error',
     },
   },
-  // ES modules (src, tests, configs)
+  // ES modules (src, configs)
   {
-    files: ['src/**/*.js', 'tests/**/*.js', '*.config.js'],
+    files: ['src/**/*.js', '*.config.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -38,11 +38,14 @@ export default [
       'no-var': 'error',
     },
   },
-  // Test files (add vitest globals)
+  // Vitest unit test files
   {
-    files: ['tests/**/*.test.js'],
+    files: ['tests/unit/**/*.test.js'],
     languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
       globals: {
+        ...globals.node,
         describe: 'readonly',
         test: 'readonly',
         expect: 'readonly',
@@ -54,8 +57,32 @@ export default [
         vi: 'readonly',
       },
     },
+    rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-console': 'off',
+      'prefer-const': 'error',
+      'no-var': 'error',
+    },
+  },
+  // Playwright E2E test files (need browser globals for page.evaluate)
+  {
+    files: ['tests/e2e/**/*.spec.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+        ...globals.browser, // For page.evaluate() callbacks
+      },
+    },
+    rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-console': 'off',
+      'prefer-const': 'error',
+      'no-var': 'error',
+    },
   },
   {
-    ignores: ['node_modules/', 'icons/', 'coverage/'],
+    ignores: ['node_modules/', 'icons/', 'coverage/', 'playwright-report/', 'test-results/'],
   },
 ];
