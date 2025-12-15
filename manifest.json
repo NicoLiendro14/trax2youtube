@@ -3,10 +3,7 @@
   "name": "Traxsource to YouTube Playlist",
   "version": "1.0.0",
   "description": "Instantly convert Traxsource charts to YouTube playlists",
-  "permissions": [
-    "activeTab",
-    "storage"
-  ],
+  "permissions": ["activeTab", "storage"],
   "host_permissions": [
     "https://www.traxsource.com/*",
     "https://traxsource.com/*",
@@ -23,10 +20,7 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://www.traxsource.com/*",
-        "https://traxsource.com/*"
-      ],
+      "matches": ["https://www.traxsource.com/*", "https://traxsource.com/*"],
       "js": ["content.js"]
     }
   ],
@@ -39,4 +33,3 @@
     "128": "icons/icon128.png"
   }
 }
-

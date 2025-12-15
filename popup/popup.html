@@ -1,102 +1,116 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=380">
-  <title>Traxsource → YouTube</title>
-  <link rel="stylesheet" href="popup.css">
-</head>
-<body>
-  <!-- Header -->
-  <header class="header">
-    <div class="header-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 18V5l12-2v13"></path>
-        <circle cx="6" cy="18" r="3"></circle>
-        <circle cx="18" cy="16" r="3"></circle>
-      </svg>
-    </div>
-    <h1 class="header-title">Traxsource → YouTube</h1>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=380" />
+    <title>Traxsource → YouTube</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="header">
+      <div class="header-icon">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M9 18V5l12-2v13"></path>
+          <circle cx="6" cy="18" r="3"></circle>
+          <circle cx="18" cy="16" r="3"></circle>
+        </svg>
+      </div>
+      <h1 class="header-title">Traxsource → YouTube</h1>
+    </header>
 
-  <!-- Main Content -->
-  <main id="content">
-    <!-- Status Card -->
-    <div class="card" id="statusCard">
-      <div class="status-row">
-        <span class="status-icon" id="statusIcon">⏳</span>
-        <span class="status-text" id="statusText">Analyzing page...</span>
+    <!-- Main Content -->
+    <main id="content">
+      <!-- Status Card -->
+      <div class="card" id="statusCard">
+        <div class="status-row">
+          <span class="status-icon" id="statusIcon">⏳</span>
+          <span class="status-text" id="statusText">Analyzing page...</span>
+        </div>
+        <div class="progress-bar" id="progressContainer" style="display: none">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-label" id="progressLabel" style="display: none">0 / 0 tracks</div>
       </div>
-      <div class="progress-bar" id="progressContainer" style="display: none;">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <div class="progress-label" id="progressLabel" style="display: none;">0 / 0 tracks</div>
-    </div>
 
-    <!-- Track Count Info -->
-    <div class="card info-card" id="trackInfo" style="display: none;">
-      <div class="info-row">
-        <span class="info-label">Tracks found</span>
-        <span class="info-value" id="trackCount">0</span>
+      <!-- Track Count Info -->
+      <div class="card info-card" id="trackInfo" style="display: none">
+        <div class="info-row">
+          <span class="info-label">Tracks found</span>
+          <span class="info-value" id="trackCount">0</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Chart</span>
+          <span class="info-value info-title" id="chartTitle">-</span>
+        </div>
       </div>
-      <div class="info-row">
-        <span class="info-label">Chart</span>
-        <span class="info-value info-title" id="chartTitle">-</span>
-      </div>
-    </div>
 
-    <!-- Convert Button -->
-    <button class="btn btn-primary" id="convertBtn" style="display: none;">
-      <span class="btn-icon">🚀</span>
-      <span class="btn-text">Convert to Playlist</span>
-    </button>
-
-    <!-- Result Card -->
-    <div class="card result-card" id="resultCard" style="display: none;">
-      <div class="result-header">
-        <span class="result-icon">✅</span>
-        <span class="result-title">Playlist created!</span>
-      </div>
-      <div class="result-stats" id="resultStats"></div>
-      <button class="btn btn-success" id="openPlaylistBtn">
-        <span class="btn-icon">▶</span>
-        <span class="btn-text">Open in YouTube</span>
+      <!-- Convert Button -->
+      <button class="btn btn-primary" id="convertBtn" style="display: none">
+        <span class="btn-icon">🚀</span>
+        <span class="btn-text">Convert to Playlist</span>
       </button>
-      <button class="btn btn-secondary" id="copyUrlBtn">
-        <span class="btn-icon">📋</span>
-        <span class="btn-text">Copy URL</span>
-      </button>
-    </div>
 
-    <!-- Error Card -->
-    <div class="card error-card" id="errorCard" style="display: none;">
-      <div class="error-header">
-        <span class="error-icon">❌</span>
-        <span class="error-title">Error</span>
+      <!-- Result Card -->
+      <div class="card result-card" id="resultCard" style="display: none">
+        <div class="result-header">
+          <span class="result-icon">✅</span>
+          <span class="result-title">Playlist created!</span>
+        </div>
+        <div class="result-stats" id="resultStats"></div>
+        <button class="btn btn-success" id="openPlaylistBtn">
+          <span class="btn-icon">▶</span>
+          <span class="btn-text">Open in YouTube</span>
+        </button>
+        <button class="btn btn-secondary" id="copyUrlBtn">
+          <span class="btn-icon">📋</span>
+          <span class="btn-text">Copy URL</span>
+        </button>
       </div>
-      <p class="error-message" id="errorMessage"></p>
-      <button class="btn btn-secondary" id="retryBtn">
-        <span class="btn-icon">🔄</span>
-        <span class="btn-text">Retry</span>
-      </button>
+
+      <!-- Error Card -->
+      <div class="card error-card" id="errorCard" style="display: none">
+        <div class="error-header">
+          <span class="error-icon">❌</span>
+          <span class="error-title">Error</span>
+        </div>
+        <p class="error-message" id="errorMessage"></p>
+        <button class="btn btn-secondary" id="retryBtn">
+          <span class="btn-icon">🔄</span>
+          <span class="btn-text">Retry</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- Not on Traxsource -->
+    <div class="not-traxsource" id="notTraxsource" style="display: none">
+      <div class="not-traxsource-icon">📍</div>
+      <p class="not-traxsource-text">
+        Navigate to a <strong>Traxsource</strong> chart to use this extension
+      </p>
+      <a
+        href="https://www.traxsource.com/genre/1/house/top?cn=100"
+        target="_blank"
+        class="btn btn-secondary btn-small"
+      >
+        View chart example
+      </a>
     </div>
-  </main>
 
-  <!-- Not on Traxsource -->
-  <div class="not-traxsource" id="notTraxsource" style="display: none;">
-    <div class="not-traxsource-icon">📍</div>
-    <p class="not-traxsource-text">Navigate to a <strong>Traxsource</strong> chart to use this extension</p>
-    <a href="https://www.traxsource.com/genre/1/house/top?cn=100" target="_blank" class="btn btn-secondary btn-small">
-      View chart example
-    </a>
-  </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <span>Traxsource to YouTube v1.0</span>
+    </footer>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <span>Traxsource to YouTube v1.0</span>
-  </footer>
-
-  <script src="popup.js"></script>
-</body>
+    <script src="popup.js"></script>
+  </body>
 </html>
-

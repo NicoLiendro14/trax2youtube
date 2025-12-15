@@ -14,4 +14,3 @@ Chrome extension that converts Traxsource charts to YouTube playlists.
 2. Click the extension icon
 3. Click "Convert to Playlist"
 4. Open the generated YouTube playlist
-
