@@ -121,6 +121,19 @@ function showConverting() {
   elements.errorCard.style.display = 'none';
 }
 
+function formatTrackDisplay(track) {
+  if (!track) return '';
+
+  const parts = [];
+  if (track.artists) parts.push(track.artists);
+  if (track.title) parts.push(track.title);
+
+  let display = parts.join(' - ');
+  if (track.version) display += ` (${track.version})`;
+
+  return display;
+}
+
 function updateProgress(progress) {
   if (!progress) return;
 
@@ -128,10 +141,13 @@ function updateProgress(progress) {
   elements.progressFill.style.width = `${percent}%`;
   elements.progressLabel.textContent = `${progress.current} / ${progress.total} tracks`;
 
-  const trackTitle = progress.track?.title || '';
+  const trackDisplay = formatTrackDisplay(progress.track);
   const status = progress.status === 'found' ? '✅' : progress.status === 'not_found' ? '❌' : '🔍';
 
-  updateStatus(status, trackTitle.length > 35 ? trackTitle.substring(0, 35) + '...' : trackTitle);
+  updateStatus(
+    status,
+    trackDisplay.length > 40 ? trackDisplay.substring(0, 40) + '...' : trackDisplay
+  );
 }
 
 function showComplete(result) {
