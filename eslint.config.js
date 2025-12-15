@@ -3,9 +3,9 @@ import globals from 'globals';
 
 export default [
   js.configs.recommended,
+  // Extension scripts (browser context, no modules)
   {
-    files: ['**/*.js'],
-    ignores: ['eslint.config.js'],
+    files: ['background.js', 'content.js', 'popup/**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',
@@ -21,8 +21,9 @@ export default [
       'no-var': 'error',
     },
   },
+  // ES modules (src, tests, configs)
   {
-    files: ['eslint.config.js'],
+    files: ['src/**/*.js', 'tests/**/*.js', '*.config.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -30,8 +31,31 @@ export default [
         ...globals.node,
       },
     },
+    rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-console': 'off',
+      'prefer-const': 'error',
+      'no-var': 'error',
+    },
+  },
+  // Test files (add vitest globals)
+  {
+    files: ['tests/**/*.test.js'],
+    languageOptions: {
+      globals: {
+        describe: 'readonly',
+        test: 'readonly',
+        expect: 'readonly',
+        it: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly',
+        vi: 'readonly',
+      },
+    },
   },
   {
-    ignores: ['node_modules/', 'icons/'],
+    ignores: ['node_modules/', 'icons/', 'coverage/'],
   },
 ];

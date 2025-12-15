@@ -1,0 +1,214 @@
+{
+  "contents": {
+    "twoColumnSearchResultsRenderer": {
+      "primaryContents": {
+        "sectionListRenderer": {
+          "contents": [
+            {
+              "itemSectionRenderer": {
+                "contents": [
+                  {
+                    "videoRenderer": {
+                      "videoId": "dQw4w9WgXcQ",
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "Artist Name - Track Title (Original Mix)"
+                          }
+                        ]
+                      },
+                      "lengthText": {
+                        "simpleText": "5:30"
+                      },
+                      "ownerText": {
+                        "runs": [
+                          {
+                            "text": "Official Channel"
+                          }
+                        ]
+                      },
+                      "viewCountText": {
+                        "simpleText": "1,234,567 views"
+                      }
+                    }
+                  },
+                  {
+                    "videoRenderer": {
+                      "videoId": "abc123xyz",
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "DJ Producer - Deep House Track"
+                          }
+                        ]
+                      },
+                      "lengthText": {
+                        "simpleText": "6:45"
+                      },
+                      "ownerText": {
+                        "runs": [
+                          {
+                            "text": "House Music Channel"
+                          }
+                        ]
+                      },
+                      "viewCountText": {
+                        "simpleText": "567,890 views"
+                      }
+                    }
+                  },
+                  {
+                    "videoRenderer": {
+                      "videoId": "short123",
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "Short Clip - Should Be Filtered"
+                          }
+                        ]
+                      },
+                      "lengthText": {
+                        "simpleText": "0:45"
+                      },
+                      "ownerText": {
+                        "runs": [
+                          {
+                            "text": "Clips Channel"
+                          }
+                        ]
+                      },
+                      "viewCountText": {
+                        "simpleText": "100 views"
+                      }
+                    }
+                  },
+                  {
+                    "videoRenderer": {
+                      "videoId": "long123mix",
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "DJ Set - 2 Hour Mix - Should Be Filtered"
+                          }
+                        ]
+                      },
+                      "lengthText": {
+                        "simpleText": "2:05:30"
+                      },
+                      "ownerText": {
+                        "runs": [
+                          {
+                            "text": "Mix Channel"
+                          }
+                        ]
+                      },
+                      "viewCountText": {
+                        "simpleText": "50,000 views"
+                      }
+                    }
+                  },
+                  {
+                    "videoRenderer": {
+                      "videoId": "techno456",
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "Techno Artist - Warehouse Rhythm"
+                          }
+                        ]
+                      },
+                      "lengthText": {
+                        "simpleText": "7:12"
+                      },
+                      "ownerText": {
+                        "runs": [
+                          {
+                            "text": "Techno Records"
+                          }
+                        ]
+                      },
+                      "viewCountText": {
+                        "simpleText": "234,567 views"
+                      }
+                    }
+                  },
+                  {
+                    "videoRenderer": {
+                      "videoId": "minimal789",
+                      "title": {
+                        "simpleText": "Minimal Track - Alternative Title Format"
+                      },
+                      "lengthText": {
+                        "simpleText": "8:00"
+                      },
+                      "ownerText": {
+                        "runs": [
+                          {
+                            "text": "Minimal Music"
+                          }
+                        ]
+                      },
+                      "viewCountText": {
+                        "simpleText": "89,012 views"
+                      }
+                    }
+                  },
+                  {
+                    "videoRenderer": {
+                      "videoId": "exactmin60",
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "Exactly One Minute Track"
+                          }
+                        ]
+                      },
+                      "lengthText": {
+                        "simpleText": "1:00"
+                      },
+                      "ownerText": {
+                        "runs": [
+                          {
+                            "text": "Edge Case Channel"
+                          }
+                        ]
+                      },
+                      "viewCountText": {
+                        "simpleText": "1,000 views"
+                      }
+                    }
+                  },
+                  {
+                    "videoRenderer": {
+                      "videoId": "exact15min",
+                      "title": {
+                        "runs": [
+                          {
+                            "text": "Exactly 15 Minutes Track"
+                          }
+                        ]
+                      },
+                      "lengthText": {
+                        "simpleText": "15:00"
+                      },
+                      "ownerText": {
+                        "runs": [
+                          {
+                            "text": "Edge Case Channel"
+                          }
+                        ]
+                      },
+                      "viewCountText": {
+                        "simpleText": "2,000 views"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

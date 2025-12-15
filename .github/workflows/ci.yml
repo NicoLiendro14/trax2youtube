@@ -1,4 +1,4 @@
-name: CI - Lint & Format
+name: CI - Lint, Format & Test
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
     branches: [main, master, dev]
 
 jobs:
-  lint-and-format:
-    name: Lint & Format Check
+  lint-format-test:
+    name: Lint, Format & Test
     runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +29,6 @@ jobs:
 
       - name: Check Prettier formatting
         run: npm run format:check
+
+      - name: Run unit tests
+        run: npm test
