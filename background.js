@@ -185,6 +185,7 @@ const conversionState = {
   total: 0,
   lastProgress: null,
   result: null,
+  sourceUrl: null,
 };
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -196,6 +197,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     conversionState.isRunning = true;
     conversionState.result = null;
+    conversionState.sourceUrl = request.sourceUrl || null;
 
     const tracks = request.tracks;
 
@@ -210,7 +212,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         conversionState.isRunning = false;
         conversionState.result = result;
 
-        chrome.storage.local.set({ lastResult: result, lastTimestamp: Date.now() });
+        chrome.storage.local.set({
+          lastResult: result,
+          lastTimestamp: Date.now(),
+          lastSourceUrl: conversionState.sourceUrl,
+        });
         chrome.runtime.sendMessage({ type: 'complete', ...result }).catch(() => {});
       })
       .catch((error) => {
@@ -234,7 +240,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.action === 'getLastResult') {
-    chrome.storage.local.get(['lastResult', 'lastTimestamp'], (data) => {
+    chrome.storage.local.get(['lastResult', 'lastTimestamp', 'lastSourceUrl'], (data) => {
       sendResponse(data);
     });
     return true;

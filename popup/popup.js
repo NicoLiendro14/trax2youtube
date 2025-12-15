@@ -40,6 +40,13 @@ async function init() {
       return;
     }
 
+    const lastData = await sendMessageToBackground({ action: 'getLastResult' });
+    if (lastData.lastResult && lastData.lastSourceUrl === tab.url) {
+      playlistUrl = lastData.lastResult.playlistUrl;
+      showComplete(lastData.lastResult);
+      return;
+    }
+
     await loadTracksFromPage(tab.id);
   } catch (err) {
     console.error('Init error:', err);
@@ -166,9 +173,12 @@ async function startConversion() {
   showConverting();
 
   try {
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+
     const response = await sendMessageToBackground({
       action: 'startConversion',
       tracks: currentTracks,
+      sourceUrl: tab.url,
     });
 
     if (response.error) {
