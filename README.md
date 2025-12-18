@@ -18,6 +18,19 @@ Ever spent hours manually searching for tracks on YouTube after discovering a si
 - 📋 **Copy playlist URL** to share with friends
 - 🎨 **Clean, minimal UI** that doesn't get in your way
 
+## 📍 Supported Pages
+
+Works on all major Traxsource page types:
+
+| Page Type | Example URL |
+|-----------|-------------|
+| Top Charts | `/top/tracks` |
+| Genre Charts | `/genre/11/tech-house/top` |
+| DJ Charts & Releases | `/title/*` |
+| Label Pages | `/label/325/nervous/top` |
+| Artist Pages | `/artist/1377/louie-vega` |
+| Search Results | `/search?term=fisher` |
+
 ## 📸 How it works
 
 1. Go to any Traxsource chart (Top 100, Genre charts, DJ charts, etc.)
