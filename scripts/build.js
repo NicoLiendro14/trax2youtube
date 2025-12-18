@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { execSync } from 'child_process';
+import archiver from 'archiver';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,23 +55,24 @@ function copyRecursive(src, dest) {
 }
 
 function createZip(sourceDir, zipPath) {
-  const isWindows = process.platform === 'win32';
+  return new Promise((resolve, reject) => {
+    if (fs.existsSync(zipPath)) {
+      fs.unlinkSync(zipPath);
+    }
 
-  if (fs.existsSync(zipPath)) {
-    fs.unlinkSync(zipPath);
-  }
+    const output = fs.createWriteStream(zipPath);
+    const archive = archiver('zip', { zlib: { level: 9 } });
 
-  if (isWindows) {
-    execSync(
-      `powershell -Command "Compress-Archive -Path '${sourceDir}\\*' -DestinationPath '${zipPath}'"`,
-      { stdio: 'inherit' }
-    );
-  } else {
-    execSync(`cd "${sourceDir}" && zip -r "${zipPath}" .`, { stdio: 'inherit' });
-  }
+    output.on('close', resolve);
+    archive.on('error', reject);
+
+    archive.pipe(output);
+    archive.directory(sourceDir, false);
+    archive.finalize();
+  });
 }
 
-function build(browser) {
+async function build(browser) {
   console.log(`\nBuilding for ${browser}...`);
 
   const distDir = path.join(rootDir, 'dist', browser);
@@ -105,7 +106,7 @@ function build(browser) {
   const zipName = `trax2youtube-${browser}-v${version}.zip`;
   const zipPath = path.join(rootDir, 'dist', zipName);
 
-  createZip(distDir, zipPath);
+  await createZip(distDir, zipPath);
 
   console.log(`  ✓ ${browser} build complete`);
   console.log(`    → dist/${browser}/`);
@@ -116,8 +117,9 @@ const browsers = parseArgs();
 console.log('Trax2YouTube Build System');
 console.log('=========================');
 
-for (const browser of browsers) {
-  build(browser);
-}
-
-console.log('\nDone!');
+(async () => {
+  for (const browser of browsers) {
+    await build(browser);
+  }
+  console.log('\nDone!');
+})();
