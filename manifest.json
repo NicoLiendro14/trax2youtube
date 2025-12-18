@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Traxsource to YouTube Playlist",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Instantly convert Traxsource charts to YouTube playlists",
   "permissions": ["activeTab", "storage"],
   "host_permissions": [

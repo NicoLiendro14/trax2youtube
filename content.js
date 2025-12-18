@@ -27,7 +27,7 @@ function formatDuration(seconds) {
 
 function parseTracks() {
   const tracks = [];
-  const trackRows = document.querySelectorAll('#trkListCont .trk-row');
+  const trackRows = document.querySelectorAll('.trk-row[data-trid]');
 
   trackRows.forEach((row, index) => {
     const trackId = row.getAttribute('data-trid') || '';
@@ -92,7 +92,7 @@ function getPageTitle() {
 }
 
 function hasTracksOnPage() {
-  return document.querySelectorAll('#trkListCont .trk-row').length > 0;
+  return document.querySelectorAll('.trk-row[data-trid]').length > 0;
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -108,7 +108,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   } else if (request.action === 'checkPage') {
     sendResponse({
       hasTracks: hasTracksOnPage(),
-      trackCount: document.querySelectorAll('#trkListCont .trk-row').length,
+      trackCount: document.querySelectorAll('.trk-row[data-trid]').length,
       url: window.location.href,
     });
   }

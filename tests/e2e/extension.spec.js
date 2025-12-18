@@ -87,7 +87,7 @@ test.describe('Extension E2E Tests', () => {
     // Inject a check to see if the content script functions exist
     // The content script defines parseTracks() in the page context
     const trackCount = await page.evaluate(() => {
-      const rows = document.querySelectorAll('#trkListCont .trk-row');
+      const rows = document.querySelectorAll('.trk-row[data-trid]');
       return rows.length;
     });
 
