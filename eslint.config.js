@@ -3,9 +3,11 @@ import globals from 'globals';
 
 export default [
   js.configs.recommended,
-  // Extension scripts (browser context, no modules)
   {
-    files: ['background.js', 'content.js', 'popup/**/*.js'],
+    ignores: ['node_modules/', 'dist/', 'coverage/', 'playwright-report/', 'test-results/'],
+  },
+  {
+    files: ['src/background.js', 'src/content.js', 'src/popup/**/*.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'script',
@@ -21,9 +23,8 @@ export default [
       'no-var': 'error',
     },
   },
-  // ES modules (src, configs)
   {
-    files: ['src/**/*.js', '*.config.js'],
+    files: ['src/utils.js'],
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: 'module',
@@ -38,7 +39,22 @@ export default [
       'no-var': 'error',
     },
   },
-  // Vitest unit test files
+  {
+    files: ['scripts/**/*.js', '*.config.js'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-console': 'off',
+      'prefer-const': 'error',
+      'no-var': 'error',
+    },
+  },
   {
     files: ['tests/unit/**/*.test.js'],
     languageOptions: {
@@ -64,7 +80,6 @@ export default [
       'no-var': 'error',
     },
   },
-  // Playwright E2E test files (need browser globals for page.evaluate)
   {
     files: ['tests/e2e/**/*.spec.js'],
     languageOptions: {
@@ -72,7 +87,7 @@ export default [
       sourceType: 'module',
       globals: {
         ...globals.node,
-        ...globals.browser, // For page.evaluate() callbacks
+        ...globals.browser,
       },
     },
     rules: {
@@ -81,8 +96,5 @@ export default [
       'prefer-const': 'error',
       'no-var': 'error',
     },
-  },
-  {
-    ignores: ['node_modules/', 'icons/', 'coverage/', 'playwright-report/', 'test-results/'],
   },
 ];

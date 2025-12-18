@@ -72,6 +72,7 @@ coverage/
 .nyc_output/
 playwright-report/
 test-results/
+.playwright-mcp/
 
 # ======================
 # Misc
@@ -79,4 +80,11 @@ test-results/
 *.bak
 *.backup
 *.old
+
+# ======================
+# Development mockups
+# ======================
+mockup-*.html
+mockup-generator.html
+screenshots/
 

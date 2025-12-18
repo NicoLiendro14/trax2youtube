@@ -6,8 +6,7 @@ import fs from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Path to the extension root
-const extensionPath = path.resolve(__dirname, '../../');
+const extensionPath = path.resolve(__dirname, '../../dist/chrome');
 
 // Path to fixtures
 const fixturesPath = path.resolve(__dirname, '../fixtures');

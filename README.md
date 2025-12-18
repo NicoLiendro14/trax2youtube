@@ -3,11 +3,12 @@
 [![CI](https://github.com/NicoLiendro14/trax2youtube/actions/workflows/ci.yml/badge.svg)](https://github.com/NicoLiendro14/trax2youtube/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-green?logo=googlechrome&logoColor=white)](https://chrome.google.com/webstore)
+[![Firefox Add-on](https://img.shields.io/badge/Firefox-Add--on-orange?logo=firefox&logoColor=white)](https://addons.mozilla.org)
 [![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue)](https://developer.chrome.com/docs/extensions/mv3/)
 
 Ever spent hours manually searching for tracks on YouTube after discovering a sick house chart on Traxsource? Yeah, me too. That's why I built this.
 
-**Trax2YouTube** is a Chrome extension that grabs all the tracks from any Traxsource chart and creates a YouTube playlist in seconds. No more copy-pasting track names one by one.
+**Trax2YouTube** is a browser extension for Chrome and Firefox that grabs all the tracks from any Traxsource chart and creates a YouTube playlist in seconds. No more copy-pasting track names one by one.
 
 ---
 
@@ -22,14 +23,14 @@ Ever spent hours manually searching for tracks on YouTube after discovering a si
 
 Works on all major Traxsource page types:
 
-| Page Type | Example URL |
-|-----------|-------------|
-| Top Charts | `/top/tracks` |
-| Genre Charts | `/genre/11/tech-house/top` |
-| DJ Charts & Releases | `/title/*` |
-| Label Pages | `/label/325/nervous/top` |
-| Artist Pages | `/artist/1377/louie-vega` |
-| Search Results | `/search?term=fisher` |
+| Page Type            | Example URL                |
+| -------------------- | -------------------------- |
+| Top Charts           | `/top/tracks`              |
+| Genre Charts         | `/genre/11/tech-house/top` |
+| DJ Charts & Releases | `/title/*`                 |
+| Label Pages          | `/label/325/nervous/top`   |
+| Artist Pages         | `/artist/1377/louie-vega`  |
+| Search Results       | `/search?term=fisher`      |
 
 ## 📸 How it works
 
@@ -43,44 +44,48 @@ Works on all major Traxsource page types:
 ### From source (Developer mode)
 
 ```bash
-# Clone the repo
 git clone https://github.com/NicoLiendro14/trax2youtube.git
 cd trax2youtube
-
-# Install dependencies (for development)
 npm install
+npm run build
 ```
 
-Then load it in Chrome:
+#### Chrome
 
 1. Open `chrome://extensions/`
 2. Enable **Developer mode** (toggle in top right)
 3. Click **Load unpacked**
-4. Select the `trax2youtube` folder
+4. Select the `dist/chrome` folder
+
+#### Firefox
+
+1. Open `about:debugging#/runtime/this-firefox`
+2. Click **Load Temporary Add-on...**
+3. Select `dist/firefox/manifest.json`
 
 That's it! Navigate to [Traxsource](https://www.traxsource.com) and try it out.
 
 ## 🛠️ Development
 
-This project uses modern tooling to keep the code clean:
-
 ```bash
-# Run all tests
+# Build for both browsers
+npm run build
+
+# Build for specific browser
+npm run build:chrome
+npm run build:firefox
+
+# Run unit tests
 npm test
 
-# Run tests in watch mode
-npm run test:watch
-
-# Run E2E tests with Playwright
+# Run E2E tests (builds Chrome first)
 npm run test:e2e
 
-# Lint the code
+# Lint & format
 npm run lint
-
-# Format with Prettier
 npm run format
 
-# Run full CI pipeline locally
+# Full CI pipeline
 npm run ci
 ```
 
@@ -88,19 +93,24 @@ npm run ci
 
 ```
 trax2youtube/
-├── manifest.json      # Extension manifest (v3)
-├── background.js      # Service worker for YouTube search
-├── content.js         # Parses tracks from Traxsource pages
-├── popup/             # Extension popup UI
-│   ├── popup.html
-│   ├── popup.css
-│   └── popup.js
-├── src/
-│   └── utils.js       # Shared utilities
-├── tests/
-│   ├── unit/          # Vitest unit tests
-│   └── e2e/           # Playwright E2E tests
-└── icons/             # Extension icons
+├── src/                    # Source code
+│   ├── background.js       # Service worker / background script
+│   ├── content.js          # Traxsource page parser
+│   ├── utils.js            # Shared utilities
+│   ├── popup/              # Extension popup UI
+│   └── icons/              # Extension icons
+├── manifests/              # Browser-specific manifests
+│   ├── base.json           # Shared manifest
+│   ├── chrome.json         # Chrome overrides
+│   └── firefox.json        # Firefox overrides
+├── scripts/
+│   └── build.js            # Build script
+├── dist/                   # Built extensions (gitignored)
+│   ├── chrome/
+│   └── firefox/
+└── tests/
+    ├── unit/               # Vitest unit tests
+    └── e2e/                # Playwright E2E tests
 ```
 
 ## 🧪 Testing
