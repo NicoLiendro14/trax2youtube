@@ -11,6 +11,7 @@ const extensionPath = path.resolve(__dirname, '../../dist/chrome');
 // Path to fixtures
 const fixturesPath = path.resolve(__dirname, '../fixtures');
 const traxsourceMockPath = path.join(fixturesPath, 'traxsource-mock.html');
+const traxsourceGenreMockPath = path.join(fixturesPath, 'traxsource-genre-mock.html');
 const youtubeMockPath = path.join(fixturesPath, 'youtube-search-response.html');
 
 /**
@@ -188,12 +189,101 @@ test.describe('YouTube Mock Integration', () => {
   test('Traxsource mock has correct track structure', async () => {
     const mockHtml = fs.readFileSync(traxsourceMockPath, 'utf-8');
 
-    // Verify the mock contains expected DOM structure
     expect(mockHtml).toContain('trkListCont');
     expect(mockHtml).toContain('trk-row');
     expect(mockHtml).toContain('data-trid');
     expect(mockHtml).toContain('trk-cell title');
     expect(mockHtml).toContain('trk-cell artists');
     expect(mockHtml).toContain('duration');
+  });
+
+  test('Traxsource genre mock has compact layout structure', async () => {
+    const mockHtml = fs.readFileSync(traxsourceGenreMockPath, 'utf-8');
+
+    expect(mockHtml).toContain('top-item');
+    expect(mockHtml).toContain('play-trk');
+    expect(mockHtml).toContain('data-trid');
+    expect(mockHtml).toContain('com-title');
+    expect(mockHtml).toContain('com-artists');
+    expect(mockHtml).toContain('com-label');
+  });
+});
+
+test.describe('Genre Page Compact Layout', () => {
+  let context;
+  let extensionId;
+
+  test.beforeAll(async () => {
+    const ctx = await chromium.launchPersistentContext('', {
+      headless: false,
+      args: [
+        `--disable-extensions-except=${extensionPath}`,
+        `--load-extension=${extensionPath}`,
+        '--no-first-run',
+        '--disable-gpu',
+      ],
+    });
+
+    let id;
+    let attempts = 0;
+    while (!id && attempts < 10) {
+      const targets = ctx.serviceWorkers();
+      const ext = targets.find((t) => t.url().includes('chrome-extension://'));
+      if (ext) {
+        id = ext.url().split('/')[2];
+      } else {
+        await new Promise((r) => setTimeout(r, 500));
+        attempts++;
+      }
+    }
+
+    context = ctx;
+    extensionId = id;
+  });
+
+  test.afterAll(async () => {
+    await context?.close();
+  });
+
+  test('extension loads for genre page tests', async () => {
+    expect(extensionId).toBeTruthy();
+  });
+
+  test('detects tracks on genre landing page (compact layout)', async () => {
+    const page = await context.newPage();
+    await page.goto(`file://${traxsourceGenreMockPath}`);
+    await page.waitForTimeout(1000);
+
+    const trackCount = await page.evaluate(() => {
+      const rows = document.querySelectorAll('.top-item.play-trk[data-trid]');
+      return rows.length;
+    });
+
+    expect(trackCount).toBe(3);
+    await page.close();
+  });
+
+  test('compact layout tracks have correct data attributes', async () => {
+    const page = await context.newPage();
+    await page.goto(`file://${traxsourceGenreMockPath}`);
+    await page.waitForTimeout(500);
+
+    const firstTrack = await page.evaluate(() => {
+      const item = document.querySelector('.top-item.play-trk[data-trid]');
+      return {
+        id: item.getAttribute('data-trid'),
+        title: item.querySelector('.com-title')?.textContent?.trim(),
+        hasArtists: item.querySelectorAll('a.com-artists').length > 0,
+        hasLabel: item.querySelector('a.com-label') !== null,
+        position: item.querySelector('.ttib.position')?.textContent?.trim(),
+      };
+    });
+
+    expect(firstTrack.id).toBe('14359001');
+    expect(firstTrack.title).toBe('Take Me Up');
+    expect(firstTrack.hasArtists).toBe(true);
+    expect(firstTrack.hasLabel).toBe(true);
+    expect(firstTrack.position).toBe('1');
+    await page.close();
   });
 });

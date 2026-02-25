@@ -25,7 +25,7 @@ function formatDuration(seconds) {
   return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-function parseTracks() {
+function parseFullLayoutTracks() {
   const tracks = [];
   const trackRows = document.querySelectorAll('.trk-row[data-trid]');
 
@@ -81,6 +81,51 @@ function parseTracks() {
   return tracks;
 }
 
+function parseCompactLayoutTracks() {
+  const tracks = [];
+  const trackItems = document.querySelectorAll('.top-item.play-trk[data-trid]');
+
+  trackItems.forEach((item, index) => {
+    const trackId = item.getAttribute('data-trid') || '';
+
+    const posElem = item.querySelector('.ttib.position');
+    const position = posElem?.textContent?.trim() || String(index + 1);
+
+    const titleElem = item.querySelector('.com-title');
+    const title = titleElem?.textContent?.trim() || '';
+
+    const artistElems = item.querySelectorAll('a.com-artists');
+    const artists = Array.from(artistElems)
+      .map((a) => a.textContent?.trim())
+      .filter(Boolean);
+    const artistsStr = artists.join(', ');
+
+    const labelElem = item.querySelector('a.com-label');
+    const label = labelElem?.textContent?.trim() || '';
+
+    tracks.push({
+      id: trackId,
+      position,
+      title,
+      version: '',
+      durationSeconds: 0,
+      durationFormatted: '0:00',
+      artists: artistsStr,
+      label,
+      genre: '',
+    });
+  });
+
+  return tracks;
+}
+
+function parseTracks() {
+  const fullTracks = parseFullLayoutTracks();
+  if (fullTracks.length > 0) return fullTracks;
+
+  return parseCompactLayoutTracks();
+}
+
 function getPageTitle() {
   const h1 = document.querySelector('h1');
   if (h1) return h1.textContent?.trim() || '';
@@ -92,7 +137,10 @@ function getPageTitle() {
 }
 
 function hasTracksOnPage() {
-  return document.querySelectorAll('.trk-row[data-trid]').length > 0;
+  return (
+    document.querySelectorAll('.trk-row[data-trid]').length > 0 ||
+    document.querySelectorAll('.top-item.play-trk[data-trid]').length > 0
+  );
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
